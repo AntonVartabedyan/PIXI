@@ -240,8 +240,10 @@ export class GameApplication extends PIXI.Application {
     private onTick(delta: number) {
 
         if (this.btn1Down) {
-
-            if ((this.ball.x + this.ball.width) >= GameApplication.STAGE_WIDTH || this.ball.x <= 0) {
+        if (((this.ball.x + this.ball.width) >= GameApplication.STAGE_WIDTH || this.ball.x <= 0) && ((this.ball.y + this.ball.height) >= GameApplication.STAGE_HEIGHT || this.ball.y <= 0)) {
+                this.ang = 270 + this.ang;
+            }
+             else if ((this.ball.x + this.ball.width) >= GameApplication.STAGE_WIDTH || this.ball.x <= 0) {
                 this.ang = 180 - this.ang;
             } else if ((this.ball.y + this.ball.height) >= GameApplication.STAGE_HEIGHT || this.ball.y <= 0) {
                 this.ang = 360 - this.ang;
@@ -250,6 +252,10 @@ export class GameApplication extends PIXI.Application {
             this.radians = this.ang * Math.PI / 180;
             this.xunit = Math.cos(this.radians) * this.velocity;
             this.yunit = Math.sin(this.radians) * this.velocity;
+            if (((this.ball.x + this.ball.width) >= GameApplication.STAGE_WIDTH || this.ball.x <= 0) && ((this.ball.y + this.ball.height) >= GameApplication.STAGE_HEIGHT || this.ball.y <= 0)) {
+                this.ball.x += this.yunit * 2
+                this.ball.y -= this.xunit * 2
+            }
             this.ball.x += this.xunit
             this.ball.y += this.yunit
         }
