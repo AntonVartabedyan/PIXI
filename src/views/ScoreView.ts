@@ -6,28 +6,17 @@ import { EventDispatcher } from "../EventDispatcher";
 import { BrickType } from "../game/level/BrickType";
 
 export class ScoreView extends BaseView {
-  private scoreTextBG: PIXI.Graphics;
   private scoreText: PIXI.Text;
 
   constructor() {
     super();
   }
-  private addLeadingZeros(num: number, totalLength: number) {
+  public addLeadingZeros(num: number, totalLength: number) {
     return String(num).padStart(totalLength, "0");
   }
 
   public setScore(score: number) {
-    // this.scoreText.lineStyle({ width: 2, color: 0xffffff });
-    // this.scoreText.style.lineHeight = 60;
-    this.scoreTextBG = new PIXI.Graphics();
-    this.scoreTextBG.lineStyle({ width: 2, color: 0xffffff });
-    this.scoreTextBG.beginFill(0x000000);
-    this.scoreTextBG.drawRect(0, 0, 250, 50);
-    this.scoreTextBG.endFill();
-    this.scoreTextBG.cacheAsBitmap = true;
-    this.scoreTextBG.x = GameApplication.STAGE_WIDTH * 0.01;
-    this.scoreTextBG.y = GameApplication.STAGE_HEIGHT * 0.9;
-    this.addChild(this.scoreTextBG);
+    
     this.scoreText = new PIXI.Text(`SCORE: ${this.addLeadingZeros(score, 3)}`, {
       fontSize: 40,
       fontFamily: "Minecraft",
@@ -35,13 +24,26 @@ export class ScoreView extends BaseView {
     });
     this.scoreText.resolution = 2;
     this.scoreText.anchor.set(0.5);
-    this.scoreText.x = this.scoreTextBG.width / 2;
-    this.scoreText.y = this.scoreTextBG.height / 2;
+    this.scoreText.x = this.background.width / 2;
+    this.scoreText.y = this.background.height / 2;
 
-    this.scoreTextBG.addChild(this.scoreText);
+    this.background.addChild(this.scoreText);
   }
+
+  
 
   protected init() {
     super.init();
+  }
+  protected createBackground(){
+    this.background = new PIXI.Graphics();
+    this.background.lineStyle({ width: 2, color: 0xffffff });
+    this.background.beginFill(0x000000);
+    this.background.drawRect(0, 0, 250, 50);
+    this.background.endFill();
+    this.background.cacheAsBitmap = true;
+    this.background.x = GameApplication.STAGE_WIDTH * 0.99-this.background.width;
+    this.background.y = GameApplication.STAGE_HEIGHT * 0.9;
+    this.addChild(this.background);
   }
 }
