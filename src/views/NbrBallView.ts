@@ -13,20 +13,32 @@ export class NbrBallView extends BaseView {
     constructor() {
         super();
     }
-    public addLeadingZeros(num: number, totalLength: number) {
-        return String(num).padStart(totalLength, "0");
+    public setNbrBall(score: number) {
+        this.nbrBallText.text = score.toString(10).padStart(2, "0"); 
       }
 
-    public setNbrBall(ball: number) {
-            this.nbrBallText = new PIXI.Text(`Balls: ${this.addLeadingZeros(ball, 2)}`, {
+    public createText() {
+            this.nbrBallText = new PIXI.Text(`000`, {
+              fontSize: 50,
+              fontFamily: "Minecraft",
+              fill: 0xffffff,
+            });
+            console.log(this.nbrBallText.text);
+            this.label = new PIXI.Text ('Balls: ', {
               fontSize: 40,
               fontFamily: "Minecraft",
               fill: 0xffffff,
             });
+
+            this.label.resolution = 2;
+            this.label.anchor.set(0.5);
+            this.label.x = this.background.width/4;
+            this.label.y = this.background.height/2;
             this.nbrBallText.resolution = 2;
             this.nbrBallText.anchor.set(0.5);
-            this.nbrBallText.x = this.background.width/2;
+            this.nbrBallText.x = this.background.width/1.5;
             this.nbrBallText.y = this.background.height/2;
+            this.background.addChild(this.label);
             this.background.addChild(this.nbrBallText);
     }
     protected createBackground(){
@@ -35,7 +47,6 @@ export class NbrBallView extends BaseView {
     this.background.beginFill(0x000000);
     this.background.drawRect(0, 0, 250, 50);
     this.background.endFill();
-    this.background.cacheAsBitmap = true;
     this.background.x = GameApplication.STAGE_WIDTH*0.01;
     this.background.y = GameApplication.STAGE_HEIGHT*0.9;
     this.addChild(this.background);
@@ -43,6 +54,7 @@ export class NbrBallView extends BaseView {
 
     protected init() {
         super.init();
+      this.createText();
 
         
     }
