@@ -1,0 +1,57 @@
+import * as PIXI from "pixi.js";
+import { BaseView } from "./BaseView";
+import { GameApplication } from "../GameApplication";
+import { EventDispatcher } from "../EventDispatcher";
+import { GameEvents } from "../GameEvents";
+export class StartScreen extends BaseView {
+  private title: PIXI.Text;
+  private description: PIXI.Text;
+  constructor() {
+    super();
+  }
+
+  protected init() {
+    super.init();
+    this.createText();
+  }
+
+  protected createBackground() {
+    this.background = new PIXI.Graphics();
+    this.background.lineStyle({ width: 2, color: 0xffffff });
+    this.background.beginFill(0x000000);
+    this.background.drawRect(
+      0,
+      0,
+      GameApplication.STAGE_WIDTH,
+      GameApplication.STAGE_HEIGHT
+    );
+    this.background.endFill();
+    this.background.cacheAsBitmap = true;
+    this.addChild(this.background);
+  }
+  private createText() {
+    this.title = new PIXI.Text("BRICKOUT", {
+      fontFamily: "Minecraft",
+      fontSize: 40,
+      fill: 0xffffff,
+    });
+    this.title.resolution = 2;
+    this.title.anchor.set(0.5);
+    this.title.x = GameApplication.STAGE_WIDTH / 2;
+    this.title.y = GameApplication.STAGE_HEIGHT * 0.3;
+    this.addChild(this.title);
+
+    this.description = new PIXI.Text("LEFT AND RIGHT ARROW KEYS - PADDLE MOVEMENT\nUP AND DOWN ARROW KEYS - ADJUST MUSIC VOLUME\nSPACE - LAUNCH THE BALL\nS - SHOP MENU\nPRESS ANY KEY TO START", {
+      fontFamily: "Minecraft",
+      fontSize: 25,
+      fill: 0xffffff,
+      align: "center",
+      lineHeight: 50
+    });
+    this.description.resolution = 2;
+    this.description.anchor.set(0.5);
+    this.description.x = GameApplication.STAGE_WIDTH / 2;
+    this.description.y = this.title.y + 175;
+    this.addChild(this.description);
+  }
+}
